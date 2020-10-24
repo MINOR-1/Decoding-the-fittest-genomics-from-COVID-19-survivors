@@ -7,6 +7,8 @@ struct Chrom
     int fit;
 }chrom;
 void evpop(struct Chrom population[]);
+int find_fit_value(int value);
+
 int main()
 {
     struct Chrom population[4];
@@ -29,27 +31,45 @@ void evpop(struct Chrom population[])
             population[j].bit[i]=random;
         }
         
+        
     }
-    for(int j=0;j<4;j++)
+    printf("HERE IS THE COMPLETE INFORMATION ABOUT THE ENTIRE POPULATION SET OF CHROMOSOMES\n\n");
+
+    for(j=0;j<4;j++)
     {
-        printf("Chromosome %d\t",j+1);
+     value=getvalue(population[j]);
+     population[j].fit=find_fit_value(value);
+     printf("-----------------------------------------------------------\n");
+
+     printf("Chromosome %d\t",j+1);
+     printf("\n");
+     printf("sequence=");
         for(int i=0;i<6;i++)
         {
             printf("%d",population[j].bit[i]);
         }
+        printf("     ");
+        printf("value=%d\t",value);
+        printf("fit_value=%d" ,population[j].fit);
         printf("\n");
-        
+        printf("-----------------------------------------------------------\n");
+        printf("\n");
+
+
     }
-    
-for(j=0;j<4;j++)
-    {
-    value=getvalue(population[j]);
-    printf("Chromosome %d\t%d\n",j+1,value);
-    }
+
 }
+
 int getvalue(struct Chrom human)
 {
     int value;
     value=(human.bit[5]*1)+(human.bit[4]*2)+(human.bit[3]*4)+(human.bit[2]*8)+(human.bit[1]*16)+(human.bit[0]*32);
     return value;
+}
+
+int find_fit_value(int value)
+{
+    int random=rand()%10;
+    int fit_value=(value*value)+random;
+    return fit_value;
 }
