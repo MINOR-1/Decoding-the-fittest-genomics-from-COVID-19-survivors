@@ -7,6 +7,7 @@ struct Chrom
     int fit;
 }chrom;
 void evpop(struct Chrom population[]);
+void pickchroms(chrom popcurrent[4]);
 int find_fit_value(int value);
 
 int main()
@@ -72,4 +73,28 @@ int find_fit_value(int value)
     int random=rand()%10;
     int fit_value=(value*value)+random;
     return fit_value;
+}
+void pickchroms(chrom popcurrent[4])   
+{
+
+ int i,j;
+   chrom temp;                            	
+
+    for(i=0;i<3;i++)               		
+       for(j=0;j<3;j++)
+         {
+             if(popcurrent[j+1].fit>popcurrent[j].fit)
+               {
+                 temp=popcurrent[j+1];
+                 popcurrent[j+1]=popcurrent[j];
+                 popcurrent[j]=temp;
+
+               }   
+         }                
+
+      for(i=0;i<4;i++)
+  printf("\nSorting:popnext[%d] fitness=%d",i,popcurrent[i].fit);   
+  printf("\n");                 
+                                                          
+  return(0);
 }
