@@ -6,14 +6,17 @@ struct Chrom
     int bit[6];
     int fit;
 }chrom;
+
 void evpop(struct Chrom population[]);
-void pickchroms(chrom popcurrent[4]);
+void pickchroms(struct Chrom popcurrent[]);
 int find_fit_value(int value);
 
 int main()
 {
     struct Chrom population[4];
     evpop(population);
+    pickchroms(population);
+
     return 0;
 }
 void evpop(struct Chrom population[])
@@ -34,13 +37,13 @@ void evpop(struct Chrom population[])
         
         
     }
-    printf("HERE IS THE COMPLETE INFORMATION ABOUT THE ENTIRE POPULATION SET OF CHROMOSOMES\n\n");
+    printf("# HERE IS THE COMPLETE INFORMATION ABOUT THE ENTIRE POPULATION SET OF CHROMOSOMES\n");
+    printf("*********************************************************************************\n");
 
     for(j=0;j<4;j++)
     {
      value=getvalue(population[j]);
      population[j].fit=find_fit_value(value);
-     printf("-----------------------------------------------------------\n");
 
      printf("Chromosome %d\t",j+1);
      printf("\n");
@@ -53,7 +56,6 @@ void evpop(struct Chrom population[])
         printf("value=%d\t",value);
         printf("fit_value=%d" ,population[j].fit);
         printf("\n");
-        printf("-----------------------------------------------------------\n");
         printf("\n");
 
 
@@ -74,13 +76,13 @@ int find_fit_value(int value)
     int fit_value=(value*value)+random;
     return fit_value;
 }
-void pickchroms(chrom popcurrent[4])   
+void pickchroms(struct Chrom popcurrent[])
 {
 
  int i,j;
-   chrom temp;                            	
+   struct Chrom temp;
 
-    for(i=0;i<3;i++)               		
+    for(i=0;i<3;i++)
        for(j=0;j<3;j++)
          {
              if(popcurrent[j+1].fit>popcurrent[j].fit)
@@ -89,12 +91,16 @@ void pickchroms(chrom popcurrent[4])
                  popcurrent[j+1]=popcurrent[j];
                  popcurrent[j]=temp;
 
-               }   
-         }                
+               }
+         }
+        printf("# Performing the required sorting opertion in order to achieve the best chromosomes.................%\n");
+        printf("# After Performing The sorting on the chromoses we ll get the reuired sequence in the descending order of fit_value\n");
+        printf("*******************************************************************************************************************\n\n");
 
-      for(i=0;i<4;i++)
-  printf("\nSorting:popnext[%d] fitness=%d",i,popcurrent[i].fit);   
-  printf("\n");                 
-                                                          
+    for(i=0;i<4;i++)
+    {
+        printf("chromoses=%d\t fitness=%d",i,popcurrent[i].fit);
+        printf("\n");
+    }
   return(0);
 }
