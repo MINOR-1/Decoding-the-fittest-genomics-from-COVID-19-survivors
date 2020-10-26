@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 typedef struct Chrom
 {
     short int bit[6];
@@ -8,7 +9,9 @@ typedef struct Chrom
 
 }chrom;
 
+#include <time.h>
 
+void delay(int number_of_seconds);
 void evpop(chrom popcurrent[4]);
 void pickchroms(chrom popcurrent[4]);
 void crossover(chrom popcurrent[4]);
@@ -29,7 +32,7 @@ int main()
 
    evpop(popcurrent);
    for(i=0;i<num;i++)
-{3
+{
 
      printf("\n\n\niteration = %d\n",i);
 
@@ -43,6 +46,16 @@ int main()
 
     }
 }
+void delay(int number_of_seconds)
+
+{
+    int milli_seconds = 1000 * number_of_seconds;
+    clock_t start_time = clock();
+    while (clock() < start_time + milli_seconds);
+}
+
+
+
 
 void evpop(chrom population[])
 {
@@ -63,6 +76,7 @@ void evpop(chrom population[])
         
     }
     printf("$ INITIAL SET OF CHROMOSOMES:\n");
+
     printf("*******************************\n");
 
     for(j=0;j<4;j++)
@@ -121,8 +135,9 @@ void pickchroms(chrom population[4])
                }
          }
         printf("$ PERFORMING SORTING ON INITIAL SET OF CHROMOSOMES.........%\n");
+    delay(4000);
         printf("$ AFTER SORTING:\n");
-    printf("*******************************\n");
+        printf("*******************************\n");
 
     for(i=0;i<4;i++)
     {
@@ -156,6 +171,7 @@ void crossover(chrom population[4])
     for(i=0;i<4;i++)
         population[i].fit=find_fit_value(getvalue(population[i]));
     printf("$ PERFORMING CROSSOVER ON SORTED SET OF CHROMOSOMES.........%\n");
+    delay(4000);
     printf("$ AFTER CROSSOVER:\n");
     printf("*******************************");
 
