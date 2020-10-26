@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Chrom             		
+typedef struct Chrom
 {
     short int bit[6];
     int fit;
@@ -9,22 +9,39 @@ typedef struct Chrom
 }chrom;
 
 
-void evpop(chrom popcurrent[5]);
-void pickchroms(chrom popcurrent[5]);
-void crossover(chrom popcurrent[5]);
+void evpop(chrom popcurrent[4]);
+void pickchroms(chrom popcurrent[4]);
+void crossover(chrom popcurrent[4]);
 int find_fit_value(int value);
 int getvalue(chrom popcurrent);
 
 int main()
 {
-    chrom population[5];
+   int num;
+   int i,j;
 
-	evpop(population);
-    
-	pickchroms(population);
+   enter: printf("\nPlease enter the no. of iterations:  ");
+   scanf("%d",&num);
+   chrom popcurrent[4];
+   chrom popnext[4];
+   if(num<1)
+   goto enter;
 
-	crossover(population);
-    return (0);
+   evpop(popcurrent);
+   for(i=0;i<num;i++)
+{3
+
+     printf("\n\n\niteration = %d\n",i);
+
+     for(j=0;j<4;j++)
+        popnext[j]=popcurrent[j];
+     pickchroms(popnext);
+     crossover(popnext);
+
+     for(j=0;j<4;j++)
+        popcurrent[j]=popnext[j];
+
+    }
 }
 
 void evpop(chrom population[])
@@ -34,7 +51,7 @@ void evpop(chrom population[])
     int i=0;
     int k=0;
     int value;
-    for(int j=0;j<5;j++)
+    for(int j=0;j<4;j++)
     {
         for(int i=0;i<6;i++)
         {
@@ -48,7 +65,7 @@ void evpop(chrom population[])
     printf("$ INITIAL SET OF CHROMOSOMES:\n");
     printf("*******************************\n");
 
-    for(j=0;j<5;j++)
+    for(j=0;j<4;j++)
     {
      value=getvalue(population[j]);
      population[j].fit=find_fit_value(value);
@@ -81,12 +98,12 @@ int getvalue(chrom population)
 
 int find_fit_value(int value)
 {
-    int random=rand()%10;
-    int fit_value=(value*value)+random;
+    
+    int fit_value=(value*value)+5;
     return fit_value;
 }
 
-void pickchroms(chrom population[5])
+void pickchroms(chrom population[4])
 {
 
  int i,j;
@@ -107,7 +124,7 @@ void pickchroms(chrom population[5])
         printf("$ AFTER SORTING:\n");
     printf("*******************************\n");
 
-    for(i=0;i<5;i++)
+    for(i=0;i<4;i++)
     {
         printf("chromoses=%d\t fitness=%d",i+1,population[i].fit);
         printf("\n");
@@ -116,39 +133,39 @@ void pickchroms(chrom population[5])
 
 }
 
-void crossover(chrom population[5])
+void crossover(chrom population[4])
 {
-	int i;
-	int random_number;
-	
-	random_number = rand();		
-	
-	random_number = ((random_number%5)+1);	
-	for(i=0;i<random_number;i++)	
-	{
-		population[3].bit[i]=population[2].bit[i];	
-        population[4].bit[i]=population[1].bit[i];	
-	}
-	
-	for(i=random_number;i<6;i++)
-	{
-		population[3].bit[i]=population[1].bit[i];	
-        population[4].bit[i]=population[2].bit[i];	
-	}
-	
-	for(i=0;i<5;i++)	
-    	population[i].fit=find_fit_value(getvalue(population[i]));	
-	printf("$ PERFORMING CROSSOVER ON SORTED SET OF CHROMOSOMES.........%\n");
-	printf("$ AFTER CROSSOVER:\n");
-	printf("*******************************");
+    int i;
+    int random_number;
+    
+    random_number = rand();
+    
+    random_number = ((random_number%5)+1);
+    for(i=0;i<random_number;i++)
+    {
+        population[2].bit[i]=population[1].bit[i];
+        population[3].bit[i]=population[0].bit[i];
+    }
+    
+    for(i=random_number;i<6;i++)
+    {
+        population[2].bit[i]=population[0].bit[i];
+        population[3].bit[i]=population[1].bit[i];
+    }
+    
+    for(i=0;i<4;i++)
+        population[i].fit=find_fit_value(getvalue(population[i]));
+    printf("$ PERFORMING CROSSOVER ON SORTED SET OF CHROMOSOMES.........%\n");
+    printf("$ AFTER CROSSOVER:\n");
+    printf("*******************************");
 
 
-	
-	
-    for(i=0;i<5;i++)                           
-    	printf("\nChromosome %d\nSequence=%d%d%d%d%d%d\t    value=%d\t fitness = %d",i+1,population[i].bit[5],population[i].bit[4],population[i].bit[3],population[i].bit[2],population[i].bit[1],population[i].bit[0],getvalue(population[i]),population[i].fit);
-        		
-	printf("\n*********************************");
+    
+    
+    for(i=0;i<4;i++)
+        printf("\nChromosome %d\nSequence=%d%d%d%d%d%d\t    value=%d\t fitness = %d",i+1,population[i].bit[5],population[i].bit[4],population[i].bit[3],population[i].bit[2],population[i].bit[1],population[i].bit[0],getvalue(population[i]),population[i].fit);
+                
+    printf("\n*******************************");
 
-		
+        
 }
